@@ -1,5 +1,12 @@
+using CodeWith_EFCore.EF_ORM;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<EFC_DbContext>(options =>
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionstring"))
+);
 // Add services to the container.
 
 builder.Services.AddControllers();
