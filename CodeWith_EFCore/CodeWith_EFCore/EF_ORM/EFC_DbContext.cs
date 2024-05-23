@@ -8,5 +8,7 @@ namespace CodeWith_EFCore.EF_ORM
         {
                 
         }
+
+        public DbSet<Book> books { get; set; }
     }
 }
