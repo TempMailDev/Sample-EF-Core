@@ -4,6 +4,7 @@ using CodeWith_EFCore.EF_ORM;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeWith_EFCore.Migrations
 {
     [DbContext(typeof(EFC_DbContext))]
-    partial class EFC_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20240529160033_added few tables")]
+    partial class addedfewtables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,32 +117,6 @@ namespace CodeWith_EFCore.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("currency");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Description = "Indian INR",
-                            Title = "INR"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            Description = "USA Dollar",
-                            Title = "Dollar"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            Description = "Euro",
-                            Title = "Euro"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            Description = "Japanese yen",
-                            Title = "Yen"
-                        });
                 });
 
             modelBuilder.Entity("CodeWith_EFCore.EF_ORM.Language", b =>
@@ -161,32 +138,6 @@ namespace CodeWith_EFCore.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("languages");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Description = "Hin Hindi",
-                            Title = "Hindi"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            Description = "en English",
-                            Title = "English"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            Description = "Telugu",
-                            Title = "Telugu"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            Description = "Japanese",
-                            Title = "Nihongo"
-                        });
                 });
 
             modelBuilder.Entity("CodeWith_EFCore.EF_ORM.Book", b =>

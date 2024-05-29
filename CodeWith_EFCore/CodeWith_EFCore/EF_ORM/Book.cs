@@ -11,6 +11,9 @@
         public string Location { get; set; }
         public DateTime? PublishedDate { get; set; }
         public DateTime? Created { get; set; }
+        public Language Languages { get; set; }
 
     }
+
+    
 }
