@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeWith_EFCore.Migrations
 {
     [DbContext(typeof(EFC_DbContext))]
-    [Migration("20240529160033_added few tables")]
-    partial class addedfewtables
+    [Migration("20240609044843_Initial Build")]
+    partial class InitialBuild
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,6 +117,32 @@ namespace CodeWith_EFCore.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("currency");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Description = "Indian INR",
+                            Title = "INR"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Description = "USA Dollar",
+                            Title = "Dollar"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Description = "Euro",
+                            Title = "Euro"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Description = "Japanese yen",
+                            Title = "Yen"
+                        });
                 });
 
             modelBuilder.Entity("CodeWith_EFCore.EF_ORM.Language", b =>
@@ -138,6 +164,32 @@ namespace CodeWith_EFCore.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("languages");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Description = "Hin Hindi",
+                            Title = "Hindi"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Description = "en English",
+                            Title = "English"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Description = "Telugu",
+                            Title = "Telugu"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Description = "Japanese",
+                            Title = "Nihongo"
+                        });
                 });
 
             modelBuilder.Entity("CodeWith_EFCore.EF_ORM.Book", b =>

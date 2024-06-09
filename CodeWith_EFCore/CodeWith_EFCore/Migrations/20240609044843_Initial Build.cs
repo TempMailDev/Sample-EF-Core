@@ -1,22 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace CodeWith_EFCore.Migrations
 {
     /// <inheritdoc />
-    public partial class addedfewtables : Migration
+    public partial class InitialBuild : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "LanguagesID",
-                table: "books",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "currency",
                 columns: table => new
@@ -46,6 +42,33 @@ namespace CodeWith_EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "books",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NoOfPages = table.Column<int>(type: "int", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LanguagesID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_books", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_books_languages_LanguagesID",
+                        column: x => x.LanguagesID,
+                        principalTable: "languages",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "bookPrices",
                 columns: table => new
                 {
@@ -72,10 +95,27 @@ namespace CodeWith_EFCore.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_books_LanguagesID",
-                table: "books",
-                column: "LanguagesID");
+            migrationBuilder.InsertData(
+                table: "currency",
+                columns: new[] { "ID", "Description", "Title" },
+                values: new object[,]
+                {
+                    { 1, "Indian INR", "INR" },
+                    { 2, "USA Dollar", "Dollar" },
+                    { 3, "Euro", "Euro" },
+                    { 4, "Japanese yen", "Yen" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "languages",
+                columns: new[] { "ID", "Description", "Title" },
+                values: new object[,]
+                {
+                    { 1, "Hin Hindi", "Hindi" },
+                    { 2, "en English", "English" },
+                    { 3, "Telugu", "Telugu" },
+                    { 4, "Japanese", "Nihongo" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_bookPrices_BookId",
@@ -87,38 +127,26 @@ namespace CodeWith_EFCore.Migrations
                 table: "bookPrices",
                 column: "CurrencyId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_books_languages_LanguagesID",
+            migrationBuilder.CreateIndex(
+                name: "IX_books_LanguagesID",
                 table: "books",
-                column: "LanguagesID",
-                principalTable: "languages",
-                principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
+                column: "LanguagesID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_books_languages_LanguagesID",
-                table: "books");
-
             migrationBuilder.DropTable(
                 name: "bookPrices");
 
             migrationBuilder.DropTable(
-                name: "languages");
+                name: "books");
 
             migrationBuilder.DropTable(
                 name: "currency");
 
-            migrationBuilder.DropIndex(
-                name: "IX_books_LanguagesID",
-                table: "books");
-
-            migrationBuilder.DropColumn(
-                name: "LanguagesID",
-                table: "books");
+            migrationBuilder.DropTable(
+                name: "languages");
         }
     }
 }

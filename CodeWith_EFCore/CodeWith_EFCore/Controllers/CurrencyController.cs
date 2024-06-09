@@ -45,6 +45,50 @@ namespace CodeWith_EFCore.Controllers
             var cur = await (_eFC_DbContext.currency).FirstOrDefaultAsync(x => x.Title == name);
             return Ok(cur);
         }
-
+        // sending two parameters
+        [HttpGet("Fetch Language By Para{name}/{discription}")]
+        public async Task<IActionResult> GetLanguagebyParaAsync([FromRoute] string name, [FromRoute] string discription)
+        {
+            //var lang = (from z in _eFC_DbContext.languages
+            //            where z.Title == name && z.Description == discription select z)
+            //             .FirstOrDefaultAsync();
+            //OR
+            var lang = await (_eFC_DbContext.languages.FirstOrDefaultAsync(x => 
+                        x.Title == name && x.Description == discription));
+            return Ok(lang);
+        }
+        // using optional parameters
+        [HttpGet("Fetch language by  Optional pars{name}/{discription}")]
+        public async Task<IActionResult> GetLangByOptionalParaAsync(string name,string? discription)
+        {
+            var lang =await( _eFC_DbContext.languages.
+                FirstOrDefaultAsync(x => x.Title == name
+                && (string.IsNullOrEmpty(discription) || (x.Description == discription))));
+            return Ok(lang);
+        }
+        [HttpGet("Get Currency by two column{id:int}")]
+        public async Task<IActionResult> GetcurrencyBytwoColbyIdAsync(List<int> id)
+        {
+            var cur = await _eFC_DbContext.currency.
+                Where(x => id.Contains(x.ID)).
+                Select(c => new Currency
+                {
+                    ID = c.ID,
+                    Description = c.Description
+                }).ToListAsync();
+            return Ok(cur);
+        }
+        [HttpPost("PassDynamicly")]
+        public async Task<IActionResult> GetRecordDynamicllyAsync([FromBody] List<int> ids)
+        {
+            var lan = await _eFC_DbContext.languages.
+                Where(x => ids.Contains(x.ID))
+                .Select( c => new Language
+                    {
+                        Description = c.Description
+                    }
+                ).ToListAsync();
+            return Ok(lan);
+        }
     }
 }
